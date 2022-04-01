@@ -3,7 +3,7 @@ Affichage
 """
 from communication.environment_controller import EnvironmentController
 from robot.robot import Robot
-from simulator.tweak import Tweak
+from simulator.simulator import Tweak
 
 
 class Display:
@@ -15,7 +15,15 @@ class Display:
         self.environment_controller = EnvironmentController()
         return
 
-    def print(self):
+    def print_title(self):
+        print('TP3 - Agent logique')
+        print('le simulateur de robot sauve des vies')
+
+    def print_legend(self):
+        print('A - agent, F - feu, C - chauffer')
+        print('P - poussière, D - décombres, G - gens')
+
+    def print_map(self):
         """
         Affichage de la matrice
         """

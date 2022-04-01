@@ -9,11 +9,12 @@ Légende: Data Environnement
 
 from exploration.informed import Informed
 from exploration.uninformed import Uninformed
+from simulator.simulator import Tweak
 
 
 class Environment:
-    length_x = 5
-    length_y = 5
+    length_x = Tweak.environment_start_length
+    length_y = Tweak.environment_start_length
     matrix = []
     robot_position_y = None
     robot_position_x = None

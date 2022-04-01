@@ -1,5 +1,5 @@
 """
-Interraction de du robot avec
+Interraction du robot avec l'environnement
 """
 from communication.environment_controller import EnvironmentController
 
@@ -25,6 +25,10 @@ class Actuator:
 
     def move_down(self):
         self.environment_controller.environment.robot_position_y += 1
+
+    def use_extinguisher(self):
+        # TODO Utiliser son extincteur pour jeter de l'eau et éteindre le feu
+        return
 
     def aspire(self, x, y):
         # Enlève tout ce qui est sur cette case
