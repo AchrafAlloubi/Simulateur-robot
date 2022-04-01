@@ -3,9 +3,6 @@ Générateur des tableaux
 """
 import random
 
-from simulator.simulator import Tweak
-
-
 class LevelGenerator:
 
     def __call__(self) -> None:
@@ -27,7 +24,8 @@ class LevelGenerator:
         return
 
     def add_item(self, data_id):
-        random.seed()
-        rand_x = random.randrange(0, self.environment_controller.environment.get_size_x())
-        rand_y = random.randrange(0, self.environment_controller.environment.get_size_y())
-        self.environment_controller.add(rand_x, rand_y, data_id)
+        #random.seed()
+        #rand_x = random.randrange(0, self.environment_controller.environment.get_size_x())
+        #rand_y = random.randrange(0, self.environment_controller.environment.get_size_y())
+        #self.environment_controller.add(rand_x, rand_y, data_id)
+        return

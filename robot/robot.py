@@ -1,10 +1,10 @@
 """
 Robot
 """
-from dbi.intelligent_agent import IntelligentAgent
+from expert_system.inference_engine import InferenceEngine
 
 
-class Robot(IntelligentAgent):
+class Robot(InferenceEngine):
     am_i_alive = 1
     name = 'Aspirobot T-0.1'
 
@@ -20,4 +20,4 @@ class Robot(IntelligentAgent):
         print("Name :", self.name)
 
     def execute(self) -> None:
-        self.execute_best_move()
+        self.get_strategy()

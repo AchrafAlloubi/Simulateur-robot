@@ -1,33 +1,34 @@
 """
 Affichage
 """
-from communication.environment_controller import EnvironmentController
 from robot.robot import Robot
-from simulator.simulator import Tweak
+from tweak import Tweak
 
 
 class Display:
-    environment_controller = EnvironmentController()
-    metric = Robot().believe.metric
-    state = Robot().believe.state
 
     def __call__(self) -> None:
-        self.environment_controller = EnvironmentController()
         return
 
-    def print_title(self):
+    def print_main_title(self):
         print('TP3 - Agent logique')
         print('le simulateur de robot sauve des vies')
+        print('')
 
     def print_legend(self):
         print('A - agent, F - feu, C - chauffer')
         print('P - poussière, D - décombres, G - gens')
+        print('')
 
-    def print_map(self):
+    def print_level_title(self, level, length):
+        print('Tableau niveau ', level, ' - ', length, 'x', length)
+
+    def print_map(self, matrix):
         """
         Affichage de la matrice
         """
-        matrix = self.environment_controller.environment.get_matrix()
+        #todo adapter ça
+        #matrix = self.environment_controller.environment.get_matrix()
         if Tweak().debug:
             print('------MAP-------')
         for y in range(len(matrix)-1, -1, -1):
