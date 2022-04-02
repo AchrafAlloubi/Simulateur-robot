@@ -2,7 +2,7 @@
 Représence ce que le robot voit
 """
 from communication.environment_controller import EnvironmentController
-from simulator.simulator import Environment
+from simulator.game import Environment
 
 
 class Sensor:

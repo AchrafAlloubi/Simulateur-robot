@@ -2,16 +2,15 @@
 TP 3
 
 """
-
-from simulator.simulator import Simulator
+from simulator.game import Game
 
 
 def main() -> None:
     """
     Démarrage de tous les composants du tp et affichage du résultat
     """
-    simulator = Simulator()
-    simulator.start()
+    game = Game()
+    game.start()
 
 
 if __name__ == '__main__':

@@ -23,7 +23,7 @@ class Display:
     def print_level_title(self, level, length):
         print('Tableau niveau ', level, ' - ', length, 'x', length)
 
-    def print_map(self, matrix):
+    def print_map(self, environment):
         """
         Affichage de la matrice
         """
@@ -31,15 +31,19 @@ class Display:
         #matrix = self.environment_controller.environment.get_matrix()
         if Tweak().debug:
             print('------MAP-------')
-        for y in range(len(matrix)-1, -1, -1):
-            print(matrix[y])
+        for y in range(len(environment.matrix)):
+            line = ''
+            for x in range(len(environment.matrix[y])):
+                case = environment.get_slot_data(x, y)
+                line += case.display()+' '
+            print(line)
 
         #print('------TEST EXPLORATION-------')
         #print(str(self.environment_controller.environment.test_exploration()))
 
-        self.print_metric()
+        # self.print_metric()
 
-        self.print_state()
+        # self.print_state()
 
         # TODO Terminé
         # self.environment_controller.need_screen_refresh = False

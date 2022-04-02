@@ -2,7 +2,7 @@
 Tous les indicateurs de performance que le robot possède
 """
 from dbi.metric import Metric
-from simulator.simulator import Environment
+from simulator.game import Environment
 
 
 class State:

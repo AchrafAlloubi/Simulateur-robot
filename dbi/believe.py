@@ -2,7 +2,7 @@ from dbi.metric import Metric
 from dbi.state import State
 from robot.sensor import Sensor
 
-from simulator.simulator import Environment
+from simulator.game import Environment
 
 
 class Believe:
