@@ -30,7 +30,7 @@ class LevelGenerator:
         while things_need_to_be_placed:
             position = self.generate_random_position()
             case = self.environment.get_slot_data(position['x'], position['y'])
-            adjacent_cases = self.get_adjacent_cases(position['x'], position['y'])
+            adjacent_cases = self.environment.get_adjacent_cases(position['x'], position['y'])
             print_position = '(' + str(position['x']) + ',' + str(position['y']) + ')'
 
             if not case.empty:
@@ -43,7 +43,9 @@ class LevelGenerator:
                 case.is_survivor = True
                 case.empty = False
                 survivor_is_placed = True
-                # TODO Ajouter le son
+
+                for case in adjacent_cases:
+                    case.is_cry = True
                 continue
 
             if not fire_is_placed:
@@ -79,17 +81,6 @@ class LevelGenerator:
         position = {"x": random_x, "y": random_y}
         return position
 
-    def get_adjacent_cases(self, x, y) -> []:
-        all_case = []
-        if x > 0:
-            all_case.append(self.environment.get_slot_data(x - 1, y))
-        if x < self.map_length - 1:
-            all_case.append(self.environment.get_slot_data(x + 1, y))
-        if y > 0:
-            all_case.append(self.environment.get_slot_data(x, y - 1))
-        if y < self.map_length - 1:
-            all_case.append(self.environment.get_slot_data(x, y + 1))
-        return all_case
 
     def get_environment_name(self):
         # todo retourner un nom au hasard : bâtiments en ruine et des bâtiments en feu ou même des villes victimes de catastrophes naturelles

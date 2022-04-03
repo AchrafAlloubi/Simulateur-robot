@@ -33,8 +33,20 @@ class Environment:
         for y in range(self.length_y):
             self.matrix.append([])
             for x in range(self.length_x):
-                case = Case()
+                case = Case(x, y)
                 self.matrix[y].append(case)
+
+    def get_adjacent_cases(self, x, y) -> []:
+        all_case = []
+        if x > 0:
+            all_case.append(self.get_slot_data(x - 1, y))
+        if x < self.length_x - 1:
+            all_case.append(self.get_slot_data(x + 1, y))
+        if y > 0:
+            all_case.append(self.get_slot_data(x, y - 1))
+        if y < self.length_y - 1:
+            all_case.append(self.get_slot_data(x, y + 1))
+        return all_case
 
     def get_matrix(self) -> []:
         return self.matrix

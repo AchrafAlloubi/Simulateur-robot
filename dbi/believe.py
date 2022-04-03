@@ -1,6 +1,6 @@
 from dbi.metric import Metric
 from dbi.state import State
-from robot.sensor import Sensor
+from robot.sensors import Sensors
 
 from simulator.game import Environment
 
@@ -8,7 +8,7 @@ from simulator.game import Environment
 class Believe:
     metric = Metric()
     state = State()
-    sensor = Sensor()
+    sensor = Sensors()
 
     def __call__(self) -> None:
         return

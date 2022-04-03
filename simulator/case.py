@@ -4,6 +4,8 @@ Case
 
 
 class Case:
+    x = None
+    y = None
     empty = True
     is_robot = False
     is_survivor = False
@@ -13,6 +15,10 @@ class Case:
     is_hot = False
     is_dust = False
     is_cry = False
+
+    def __init__(self, x, y) -> None:
+        self.x = x
+        self.y = y
 
     def display(self) -> str:
 

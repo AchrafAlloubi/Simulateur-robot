@@ -28,12 +28,14 @@ class Game:
             level_generator = LevelGenerator(self.map_size)
             level_generator.environment.set_robot_position(Tweak.robot_start_x, Tweak.robot_start_y)
             level_generator.generate_map()
+
             display.print_map(level_generator.environment)
 
+            robot = Robot()
+            robot.use_all_sensors_on_environment(level_generator.environment)
+
             input("Appuyez sur Entrée pour passer au niveau suivant")
-            #
-            # robot = Robot()
-            # robot.get
+
             self.level += 1
             self.map_size += 1
 

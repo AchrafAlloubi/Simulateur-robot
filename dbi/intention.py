@@ -3,11 +3,11 @@ Exécution des actions
 """
 
 from communication.environment_controller import EnvironmentController
-from robot.actuator import Actuator
+from robot.actuators import Actuators
 
 
 class Intention:
-    actuator = Actuator()
+    actuator = Actuators()
     environment_controller = EnvironmentController()
 
     def __call__(self,) -> None:

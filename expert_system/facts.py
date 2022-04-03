@@ -9,3 +9,14 @@ Est piégé
 A sauvé le survivant
 """
 # todo se_situer(singe, D)
+
+from simulator.environment import Environment
+
+
+class Facts:
+    map = []
+
+    def __init__(self):
+        return
+
+
