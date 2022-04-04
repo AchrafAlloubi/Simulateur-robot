@@ -46,6 +46,3 @@ class Sensors:
                 detected.append(case)
         return detected
 
-    def identify_rubble(self):
-        # Todo Lors de la détection de décombres, vous devez esquiver pour ne pas rester coincé
-        return

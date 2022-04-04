@@ -1,41 +1,55 @@
 """
 Interraction du robot avec l'environnement
 """
+from simulator.action import Action
+from simulator.case import Case
 from simulator.environment import Environment
+from tweak import Tweak
 
 
 class Actuators:
+    environment: Environment = None
+    current_case: Case = None
 
-    def __call__(self) -> None:
+    def __init__(self, global_environment: Environment) -> None:
+        self.environment = global_environment
+        self.current_case = self.environment.get_slot_data(self.environment.robot_position_x,
+                                                           self.environment.robot_position_y)
+
+    def move_left(self):
+        self.get_current_case().set_robot(False)
+        self.environment.robot_position_x -= 1
+        self.get_current_case().set_robot(True)
+
+    def move_right(self):
+        self.get_current_case().set_robot(False)
+        self.environment.robot_position_x += 1
+        self.get_current_case().set_robot(True)
+
+    def move_up(self):
+        self.get_current_case().set_robot(False)
+        self.environment.robot_position_y -= 1
+        self.get_current_case().set_robot(True)
+
+    def move_down(self):
+        self.get_current_case().set_robot(False)
+        self.environment.robot_position_y += 1
+        self.get_current_case().set_robot(True)
+
+    def use_extinguisher(self, target_case):
+        # Utilise son extincteur pour jeter de l'eau et éteindre le feu
+        target_case.set_fire(False)
+        hot_cases = self.environment.get_adjacent_cases(target_case.x, target_case.y)
+        for case in hot_cases:
+            case.is_hot = False
         return
 
-    def __init__(self):
-        return
+    def identify_rubble(self) -> bool:
+        # Lors de la détection de décombres, vous devez esquiver pour ne pas rester coincé
+        trapped_rate = Tweak.trapped_rate
+        # Todo faire random
+        return False
 
-    def move_left(self, global_environment: Environment):
-        global_environment.robot_position_x -= 1
-
-    def move_right(self, global_environment: Environment):
-        global_environment.robot_position_x += 1
-
-    def move_up(self, global_environment: Environment):
-        global_environment.robot_position_y -= 1
-
-    def move_down(self, global_environment: Environment):
-        global_environment.robot_position_y += 1
-
-    def use_extinguisher(self, global_environment: Environment, target_x: int, target_y: int):
-        # TODO Utiliser son extincteur pour jeter de l'eau et éteindre le feu
-        return
-
-    def aspire(self, x, y):
-        # Enlève tout ce qui est sur cette case
-        # self.global_environment.matrix[y][x] = 0
-        print("Aspire !!!!!!!!")
-        self.environment_controller.clear_piece(x, y)
-
-    def collect(self, x, y):
-        # Enlève tout ce qui est sur cette case
-        # self.global_environment.matrix[y][x] = 0
-        print("Collect !!!!!!!")
-        self.environment_controller.clear_piece(x, y)
+    def get_current_case(self):
+        return self.environment.get_slot_data(self.environment.robot_position_x,
+                                              self.environment.robot_position_y)

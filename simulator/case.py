@@ -20,6 +20,15 @@ class Case:
         self.x = x
         self.y = y
 
+    def set_robot(self, active: bool) -> None:
+        self.is_robot = active
+        self.empty = not active
+
+    def set_fire(self, active: bool) -> None:
+        self.is_fire = active
+        self.empty = not active
+
+
     def display(self) -> str:
 
         if self.is_robot:

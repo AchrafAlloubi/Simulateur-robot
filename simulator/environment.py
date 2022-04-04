@@ -99,8 +99,7 @@ class Environment:
         self.robot_position_x = x
         self.robot_position_y = y
         case = self.get_slot_data(x, y)
-        case.is_robot = True
-        case.empty = False
+        case.set_robot(True)
 
     # Temp pour test exploration
     def test_exploration(self):

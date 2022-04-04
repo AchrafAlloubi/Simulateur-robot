@@ -2,6 +2,7 @@
 Simulateur
 """
 from random import random
+from time import sleep
 
 from robot.robot import Robot
 from simulator.display import Display
@@ -32,11 +33,25 @@ class Game:
             display.print_map(level_generator.environment)
 
             robot = Robot()
-            robot.use_all_sensors_on_environment(level_generator.environment)
+
+            while not robot.facts.survival_is_secured:
+                sleep(Tweak.robot_loop_sleep)
+                robot.use_all_sensors_on_environment(level_generator.environment)
+                robot.exectute_best_action(level_generator.environment)
+
+                display.print_map(level_generator.environment)
+
+                if robot.facts.survival_is_secured:
+                    print("Trouvé le survivant")
+
+                if not robot.facts.am_i_alive:
+                    self.game_over = True
+                    exit("FIN : Robot est mort dans les décombres")
 
             input("Appuyez sur Entrée pour passer au niveau suivant")
 
             self.level += 1
             self.map_size += 1
+            robot.facts.survival_is_secured = False
 
 

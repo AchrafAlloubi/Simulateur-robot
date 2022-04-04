@@ -11,28 +11,35 @@ Si mon micro détecte du bruit, il y a un survivant proche
 Si je détecte de la chaleur et des poussières, je préfère aller éteindre le feu
 """
 # todo Est-ce qu'on préfère éteindre un feu ou fouiller des débris ?
+import random
+
+from simulator.case import Case
+from simulator.action import Action
 
 
 class Rules:
 
-
     def __call__(self) -> None:
         return
 
-    def trigger_identify_fire(self) -> None:
+    def trigger_rescues(self, cases: []) -> Case:
+        """
+        On veut suivre le son pour secourir le survivant
+        On utilise la probabilité pour choisir une direction au hazard
+        """
+        random.shuffle(cases)
+        return cases.pop()
+
+    def trigger_identify_fire(self, cases: []) -> Case:
         """
         On se met en mode éteindre le feu
         """
-        return
+        random.shuffle(cases)
+        return cases.pop()
 
-    def trigger_identify_rubble(self):
+    def trigger_identify_rubble(self, cases: []) -> Case:
         """
         On a détecter de la poussière, on doit
         """
-        return
-
-    def trigger_rescues(self):
-        """
-        On a détecter de la poussière, on doit
-        """
-        return
+        random.shuffle(cases)
+        return cases.pop()

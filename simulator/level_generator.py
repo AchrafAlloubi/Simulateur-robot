@@ -9,8 +9,8 @@ from tweak import Tweak
 
 
 class LevelGenerator:
-    map_length = None
-    environment = None
+    map_length: int = None
+    environment: Environment = None
 
     def __call__(self) -> None:
         return
@@ -80,7 +80,6 @@ class LevelGenerator:
         random_y = random.randrange(0, self.map_length)
         position = {"x": random_x, "y": random_y}
         return position
-
 
     def get_environment_name(self):
         # todo retourner un nom au hasard : bâtiments en ruine et des bâtiments en feu ou même des villes victimes de catastrophes naturelles

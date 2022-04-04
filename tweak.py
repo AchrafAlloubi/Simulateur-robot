@@ -16,17 +16,10 @@ class Tweak:
     # jewel_generation_rate = 5
 
     # Sleep en seconde
-    refresh_display_loop_sleep = 2
-    robot_loop_sleep = 3
-    generator_loop_sleep = 4
-
-
+    robot_loop_sleep = 2
 
     # Affichage
     debug = True
-
-
-
 
     def __call__(self) -> None:
         return
