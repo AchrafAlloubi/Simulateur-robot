@@ -1,15 +1,6 @@
 # TODO
-- Structure de base
-- Tableau qui s'agrandit
-- Génération de l'environnememt
-- Détecter les cris
-- Détecter chaleur
-
-- système expert
-- composer le moteur d'inférence
-- stocker les faits
-- ontenir les règles de déduction
-- Chaînage arrière
-
-- (Filtrage, Choix d'une règle, Appliquer la règle
+- Système expert (Filtrage, Choix d'une règle, Appliquer la règle)
+- Déterministe (random de rester pris dans les décombres)
+- Devrait mieux choisir la prochaine case si détecte pas de poussière/chaleur/son
+- Devrait jamais revenir sur son chemin
 
