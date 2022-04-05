@@ -1,19 +1,17 @@
 """
 Moteur d’inférence
 """
+import random
+
 from expert_system.facts import Facts
-from expert_system.rules import Rules
 from robot.actuators import Actuators
 from robot.sensors import Sensors
-from simulator import environment
-from simulator.case import Case
-from simulator.action import Action
+from expert_system.action import Action
 from simulator.environment import Environment
 
 
 class InferenceEngine:
     facts = Facts()
-    rules = Rules()
     current_strategy = None
 
     def filter(self, global_environment: Environment) -> None:
@@ -24,8 +22,8 @@ class InferenceEngine:
         # Conserve la position du robot
         self.facts.current_x = global_environment.robot_position_x
         self.facts.current_y = global_environment.robot_position_y
-        self.facts.current_case = global_environment.get_case(self.facts.current_x,self.facts.current_y)
-        self.facts.visited_cases
+        self.facts.current_case = global_environment.get_case(self.facts.current_x, self.facts.current_y)
+        self.facts.visited_cases.append(self.facts.current_case)
 
         # Utilise les sensors sur l'environment
         sensors = Sensors(global_environment)
@@ -60,20 +58,33 @@ class InferenceEngine:
 
         # Se dirige vers les cris des survivants
         if self.facts.cry_cases:
-            case = self.rules.trigger_rescues(self.facts.cry_cases)
+            random.shuffle(self.facts.cry_cases)
+            case = self.facts.cry_cases.pop()
             return Action('MOVE', case)
 
         # Se dirige vers la chaleur
         if self.facts.hot_cases:
-            case = self.rules.trigger_identify_fire(self.facts.hot_cases)
+            random.shuffle(self.facts.hot_cases)
+            case = self.facts.hot_cases.pop()
             return Action('MOVE', case)
 
         # Se dirige la poussière
         if self.facts.dust_cases:
-            case = self.rules.trigger_identify_rubble(self.facts.dust_cases)
+            random.shuffle(self.facts.dust_cases)
+            case = self.facts.dust_cases.pop()
             return Action('MOVE', case)
 
-        # TODO Doit trouvé un chemin au hazard, j'ai pris la première
+        # On visite une case jamais visité au hasard
+        random.shuffle(self.facts.adjacent_cases)
+        for adjacent_case in self.facts.adjacent_cases:
+            visited = False
+            for visited_case in self.facts.visited_cases:
+                if adjacent_case is visited_case:
+                    visited = True
+            if not visited:
+                return Action('MOVE', adjacent_case)
+
+        # On a déjà tout visité les cases aux alentours, on va n'importe où...
         return Action('MOVE', self.facts.adjacent_cases[0])
 
     def apply_rule(self, action: Action, global_environment: Environment):

@@ -1,7 +1,8 @@
 """
 Interraction du robot avec l'environnement
 """
-from simulator.action import Action
+import random
+
 from simulator.case import Case
 from simulator.environment import Environment
 from tweak import Tweak
@@ -46,9 +47,9 @@ class Actuators:
 
     def identify_rubble(self) -> bool:
         # Lors de la détection de décombres, vous devez esquiver pour ne pas rester coincé
-        trapped_rate = Tweak.trapped_rate
-        # Todo faire random
-        return False
+        # 30% de chance de mourrir
+        percent = random.randrange(0, 100)
+        return percent > Tweak.trapped_rate
 
     def get_current_case(self):
         return self.environment.get_case(self.environment.robot_position_x,

@@ -5,8 +5,8 @@ from simulator.case import Case
 
 
 class Action:
-    description = None  # MOVE, FIRE, RUBBLE, SURVIVOR
-    direction = None  # UP,DOWN,LEFT,RIGHT
+    description = ''  # MOVE, FIRE, RUBBLE, SURVIVOR
+    direction = ''  # UP,DOWN,LEFT,RIGHT
     destination_case = None
 
     def __init__(self, description: str, destination_case: Case) -> None:
