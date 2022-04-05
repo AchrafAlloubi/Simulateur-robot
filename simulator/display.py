@@ -32,3 +32,4 @@ class Display:
                 case = environment.get_case(x, y)
                 line += case.display() + ' '
             print(line)
+        print('')

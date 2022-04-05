@@ -42,7 +42,10 @@ class Game:
                 # Application de la règle
                 robot.apply_rule(action, level_generator.environment)
 
-                # self.display.print_map(level_generator.environment)
+                if Tweak().debug:
+                    # Utile pour le débuggage
+                    self.display.print_map(level_generator.environment)
+                    sleep(Tweak().robot_loop_sleep)
 
                 if robot.facts.survival_is_secured:
                     print("Trouvé le survivant")
@@ -51,7 +54,6 @@ class Game:
                     self.game_over = True
                     exit("FIN : Robot est mort dans les décombres")
 
-                sleep(Tweak.robot_loop_sleep)
 
             input("Appuyez sur Entrée pour passer au niveau suivant")
 

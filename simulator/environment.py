@@ -8,6 +8,7 @@ __ Case Vide
 """
 
 from simulator.case import Case
+from tweak import Tweak
 
 
 class Environment:
@@ -51,7 +52,8 @@ class Environment:
 
     def set_robot_position(self, x, y):
         print_position = '(' + str(x) + ',' + str(y) + ')'
-        print('Agent', print_position)
+        if Tweak().debug:
+            print('Agent', print_position)
         self.robot_position_x = x
         self.robot_position_y = y
         case = self.get_case(x, y)

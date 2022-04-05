@@ -44,7 +44,7 @@ class InferenceEngine:
 
         # Sauve le survivant
         if self.facts.current_case.is_survivor:
-            return Action('SURVIVOR', self.facts.current_case)
+            return Action('SAVE', self.facts.current_case)
 
         # Va vers le survivant
         for case in self.facts.adjacent_cases:
@@ -93,7 +93,7 @@ class InferenceEngine:
         """
         action.set_current_position(self.facts.current_x, self.facts.current_y)
 
-        print('Action:', action.description, action.direction)
+        print(action.description, action.direction)
         actuators = Actuators(global_environment)
 
         if action.description == 'MOVE' and action.direction == 'UP':
@@ -112,5 +112,5 @@ class InferenceEngine:
         if action.description == 'FIRE':
             actuators.use_extinguisher(action.destination_case)
 
-        if action.description == 'SURVIVOR':
+        if action.description == 'SAVE':
             self.facts.survival_is_secured = True

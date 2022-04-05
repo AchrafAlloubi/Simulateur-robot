@@ -5,7 +5,7 @@ from simulator.case import Case
 
 
 class Action:
-    description = ''  # MOVE, FIRE, RUBBLE, SURVIVOR
+    description = ''  # MOVE, FIRE, RUBBLE, SAVE
     direction = ''  # UP,DOWN,LEFT,RIGHT
     destination_case = None
 

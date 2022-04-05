@@ -19,7 +19,4 @@ class Tweak:
     robot_loop_sleep = 2
 
     # Affichage
-    debug = True
-
-    def __call__(self) -> None:
-        return
+    debug = False
