@@ -28,7 +28,6 @@ class Case:
         self.is_fire = active
         self.empty = not active
 
-
     def display(self) -> str:
 
         if self.is_robot:

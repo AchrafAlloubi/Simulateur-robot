@@ -13,8 +13,8 @@ class Actuators:
 
     def __init__(self, global_environment: Environment) -> None:
         self.environment = global_environment
-        self.current_case = self.environment.get_slot_data(self.environment.robot_position_x,
-                                                           self.environment.robot_position_y)
+        self.current_case = self.environment.get_case(self.environment.robot_position_x,
+                                                      self.environment.robot_position_y)
 
     def move_left(self):
         self.get_current_case().set_robot(False)
@@ -51,5 +51,5 @@ class Actuators:
         return False
 
     def get_current_case(self):
-        return self.environment.get_slot_data(self.environment.robot_position_x,
-                                              self.environment.robot_position_y)
+        return self.environment.get_case(self.environment.robot_position_x,
+                                         self.environment.robot_position_y)

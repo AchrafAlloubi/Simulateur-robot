@@ -3,9 +3,12 @@ Moteur d’inférence
 """
 from expert_system.facts import Facts
 from expert_system.rules import Rules
+from robot.actuators import Actuators
+from robot.sensors import Sensors
 from simulator import environment
 from simulator.case import Case
 from simulator.action import Action
+from simulator.environment import Environment
 
 
 class InferenceEngine:
@@ -13,59 +16,47 @@ class InferenceEngine:
     rules = Rules()
     current_strategy = None
 
-    def __call__(self) -> None:
-        return
-
-    def __init__(self) -> None:
-        return
-
-    def get_best_action(self) -> Action:
-        """
-        Algorithme principale de l'agent
-        """
-        # TODO Doit mieux implémenter le système expert, pour l'instant, il se dirige vers le son, ensuite la chaleur, ensuite
-        action = self.choose_rule()
-
-        action.set_current_position(self.facts.current_x, self.facts.current_y)
-
-        return action
-
-    def set_cry_cases(self, cases_with_cry: []) -> None:
-        if cases_with_cry:
-            self.facts.cry_cases = cases_with_cry
-
-    def set_hot_cases(self, cases_with_hot: []) -> None:
-        if cases_with_hot:
-            self.facts.hot_cases = cases_with_hot
-
-    def set_dust_cases(self, cases_with_dust: []) -> None:
-        if cases_with_dust:
-            self.facts.dust_cases = cases_with_dust
-
-    def filter(self) -> Case:
+    def filter(self, global_environment: Environment) -> None:
         """
         Filtrage : Le Moteur d’Inférence (MI) compare l’état de la mémoire de travail avec les conditions des
         règles pour trouver l’ensemble des règles activables pour un niveau de l’arbre de possibilité
         """
+        # Conserve la position du robot
+        self.facts.current_x = global_environment.robot_position_x
+        self.facts.current_y = global_environment.robot_position_y
+        self.facts.current_case = global_environment.get_case(self.facts.current_x,self.facts.current_y)
+        self.facts.visited_cases
+
+        # Utilise les sensors sur l'environment
+        sensors = Sensors(global_environment)
+
+        # Conserve les cases adjacentes dans les facts
+        self.facts.adjacent_cases = sensors.adjacent_cases
+
+        # Concerve des faits sur les cases adjacentes
+        self.facts.cry_cases = sensors.use_microphone()
+        self.facts.hot_cases = sensors.detect_heat()
+        self.facts.dust_cases = sensors.detect_dust()
 
     def choose_rule(self) -> Action:
         """
         Choix d’une règle : Cette étape consiste à déduire de nouveaux faits en sélectionnant la règle la plus
         pertinente selon la stratégie
-
-        TODO Je pense que c'est ici qu'on doit faire le chainage arrière
         """
-        # todo aller vers le son
 
-        # Sauve la vie du survivant
-        for cases in self.facts.adjacent_cases:
-            if cases.is_survivor:
-                return Action('SURVIVOR', cases)
+        # Sauve le survivant
+        if self.facts.current_case.is_survivor:
+            return Action('SURVIVOR', self.facts.current_case)
+
+        # Va vers le survivant
+        for case in self.facts.adjacent_cases:
+            if case.is_survivor:
+                return Action('MOVE', case)
 
         # Éteind le feu
-        for cases in self.facts.adjacent_cases:
-            if cases.is_fire:
-                return Action('FIRE', cases)
+        for case in self.facts.adjacent_cases:
+            if case.is_fire:
+                return Action('FIRE', case)
 
         # Se dirige vers les cris des survivants
         if self.facts.cry_cases:
@@ -85,8 +76,30 @@ class InferenceEngine:
         # TODO Doit trouvé un chemin au hazard, j'ai pris la première
         return Action('MOVE', self.facts.adjacent_cases[0])
 
-    def apply_rule(self):
+    def apply_rule(self, action: Action, global_environment: Environment):
         """
         Appliquer la règle : Exécuter la règle sélectionnée en modifiant la base de faits
         """
+        action.set_current_position(self.facts.current_x, self.facts.current_y)
 
+        print('Action:', action.description, action.direction)
+        actuators = Actuators(global_environment)
+
+        if action.description == 'MOVE' and action.direction == 'UP':
+            actuators.move_up()
+        if action.description == 'MOVE' and action.direction == 'DOWN':
+            actuators.move_down()
+        if action.description == 'MOVE' and action.direction == 'LEFT':
+            actuators.move_left()
+        if action.description == 'MOVE' and action.direction == 'RIGHT':
+            actuators.move_right()
+
+        # Si on pile sur des décombres et qu'on a pas été capable de les identifiers, on est mort
+        if action.destination_case.is_rubble and not actuators.identify_rubble():
+            self.facts.am_i_alive = False
+
+        if action.description == 'FIRE':
+            actuators.use_extinguisher(action.destination_case)
+
+        if action.description == 'SURVIVOR':
+            self.facts.survival_is_secured = True

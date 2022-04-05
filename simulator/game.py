@@ -1,10 +1,9 @@
 """
 Simulateur
 """
-from random import random
 from time import sleep
 
-from robot.robot import Robot
+from expert_system.inference_engine import InferenceEngine
 from simulator.display import Display
 from simulator.level_generator import LevelGenerator
 from tweak import Tweak
@@ -17,29 +16,33 @@ class Game:
     level = 1
     map_size = Tweak.environment_start_length
 
-    def __call__(self) -> None:
-        return
-
     def start(self):
-        display = Display()
-        display.print_main_title()
+
+        self.display.print_main_title()
         while not self.game_over:
-            display.print_level_title(self.level, self.map_size)
-            display.print_legend()
+            # Menu
+            self.display.print_level_title(self.level, self.map_size)
+            self.display.print_legend()
+
+            # Génération de la map
             level_generator = LevelGenerator(self.map_size)
             level_generator.environment.set_robot_position(Tweak.robot_start_x, Tweak.robot_start_y)
             level_generator.generate_map()
 
-            display.print_map(level_generator.environment)
+            self.display.print_map(level_generator.environment)
 
-            robot = Robot()
+            # Robot est un System expert
+            robot = InferenceEngine()
 
             while not robot.facts.survival_is_secured:
-                sleep(Tweak.robot_loop_sleep)
-                robot.use_all_sensors_on_environment(level_generator.environment)
-                robot.exectute_best_action(level_generator.environment)
+                # Filtrage
+                robot.filter(level_generator.environment)
+                # Choix de la règle
+                action = robot.choose_rule()
+                # Application de la règle
+                robot.apply_rule(action, level_generator.environment)
 
-                display.print_map(level_generator.environment)
+                # self.display.print_map(level_generator.environment)
 
                 if robot.facts.survival_is_secured:
                     print("Trouvé le survivant")
@@ -48,10 +51,10 @@ class Game:
                     self.game_over = True
                     exit("FIN : Robot est mort dans les décombres")
 
+                sleep(Tweak.robot_loop_sleep)
+
             input("Appuyez sur Entrée pour passer au niveau suivant")
 
             self.level += 1
             self.map_size += 1
             robot.facts.survival_is_secured = False
-
-

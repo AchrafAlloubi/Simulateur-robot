@@ -12,9 +12,6 @@ class LevelGenerator:
     map_length: int = None
     environment: Environment = None
 
-    def __call__(self) -> None:
-        return
-
     def __init__(self, map_length):
         random.seed()
         self.environment = Environment(map_length, map_length)
@@ -22,14 +19,16 @@ class LevelGenerator:
         return
 
     def generate_map(self) -> None:
-
+        """
+        Génère un survivant, un feu et un décombre aléatoirement
+        """
         things_need_to_be_placed = True
         survivor_is_placed = False
         fire_is_placed = False
         rubble_is_placed = False
         while things_need_to_be_placed:
             position = self.generate_random_position()
-            case = self.environment.get_slot_data(position['x'], position['y'])
+            case = self.environment.get_case(position['x'], position['y'])
             adjacent_cases = self.environment.get_adjacent_cases(position['x'], position['y'])
             print_position = '(' + str(position['x']) + ',' + str(position['y']) + ')'
 
@@ -80,14 +79,3 @@ class LevelGenerator:
         random_y = random.randrange(0, self.map_length)
         position = {"x": random_x, "y": random_y}
         return position
-
-    def get_environment_name(self):
-        # todo retourner un nom au hasard : bâtiments en ruine et des bâtiments en feu ou même des villes victimes de catastrophes naturelles
-        return
-
-    def add_item(self, data_id):
-        # random.seed()
-        # rand_x = random.randrange(0, self.environment_controller.environment.get_size_x())
-        # rand_y = random.randrange(0, self.environment_controller.environment.get_size_y())
-        # self.environment_controller.add(rand_x, rand_y, data_id)
-        return
